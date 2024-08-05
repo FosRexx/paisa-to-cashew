@@ -15,7 +15,7 @@ Replace `path/to/backup.json` with the path to your JSON backup file.
 
 ## Instructions
 1. Go to the Paisa app, then Settings > Backup and Restore. On "Export data as JSON file" click Export and save the json file. The CSV Export will not work because it does not contain enough information.
-2. Run the python script with the backup json file as an argument. As shown in [Usage](https://github.com/FosRexx/paisa-to-cashew/README.md#usage)
+2. Run the python script with the backup json file as an argument. As shown in [Usage](https://github.com/FosRexx/paisa-to-cashew?tab=readme-ov-file#usage)
 3. The converted CSV file will be saved in the `paisa-to-cashew` folder.
 4. Launch Cashew ideally a fresh install. Then Settings and Customization > Import CSV. Select the converted csv, Import.
 
