@@ -1,7 +1,6 @@
 import argparse
 import json
 import csv
-import base64
 
 
 def format_note_template(transaction, direction):
@@ -90,11 +89,8 @@ def add_starting_balance(transactions, accounts):
 
 def load_json_file(filepath):
     try:
-        with open(filepath, "r", encoding="utf-8-sig") as file:
-            encoded_data = file.read()
-            decoded_bytes = base64.b64decode(encoded_data)
-            decoded_str = decoded_bytes.decode(encoding="utf-8")
-            data = json.loads(decoded_str)
+        with open(filepath, "r", encoding='utf-8-sig') as file:
+            data = json.load(file)
             print("Successfully loaded the JSON file")
             return data
     except FileNotFoundError:
