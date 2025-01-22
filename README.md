@@ -1,4 +1,8 @@
 # paisa-to-cashew
+> [!NOTE]
+> This script is currently outdated and does not work with Paisa v7.x.x and above backups.
+> The JSON backup format has changed between Paisa v6.x.x and Paisa v7.x.x. This script was originally designed for v6.x.x and is incompatible with the new format.
+
 Convert the json backup data from the [Paisa](https://github.com/h4h13/paisa-app) expense manager to a CSV format compatible with [Cashew](https://github.com/jameskokoska/Cashew)
 
 ## Installation
