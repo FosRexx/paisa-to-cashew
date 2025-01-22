@@ -71,7 +71,7 @@ def add_starting_balance(transactions, accounts):
 
     for account in accounts:
         balance_note = (
-            f"Updated Total Balance\n{account['bankName']}: " f"{account['amount']}"
+            f"Updated Total Balance\n{account['bankName']}: {account['amount']}"
         )
         balance_correction_transaction = {
             "date": date,
@@ -138,7 +138,7 @@ def add_names_to_transactions(
 
 
 def write_to_csv(filepath, transactions, fields):
-    with open(filepath, "w", newline="", encoding='utf-8-sig') as csv_file:
+    with open(filepath, "w", newline="", encoding="utf-8-sig") as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(fields)
         for transaction in transactions:
