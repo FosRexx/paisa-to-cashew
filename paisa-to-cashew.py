@@ -1,11 +1,11 @@
 import argparse
 import json
 import csv
+import base64
 
 
 def format_note_template(transaction, direction):
     """Create formatted note for transactions."""
-
     return (
         f"Transferred Balance\n"
         f"{transaction['fromAccountName']}→{transaction['toAccountName']}\n"
@@ -18,7 +18,6 @@ def create_transaction(transaction, direction):
     Create a transaction dictionary
     for a given direction (sent/received).
     """
-
     is_income = direction == "received"
     amount = abs(transaction["amount"]) if is_income else -abs(transaction["amount"])
     account = (
@@ -89,14 +88,17 @@ def add_starting_balance(transactions, accounts):
 
 def load_json_file(filepath):
     try:
-        with open(filepath, "r", encoding='utf-8-sig') as file:
-            data = json.load(file)
-            print("Successfully loaded the JSON file")
+        with open(filepath, "rb") as file:
+            decoded_data = base64.b64decode(file.read()).decode('utf-8')
+            data = json.loads(decoded_data)
+            print("Successfully loaded and decoded the JSON file")
             return data
     except FileNotFoundError:
         print(f"Error: The file {filepath} does not exist.")
     except json.JSONDecodeError:
-        print(f"Error: The file {filepath} is not a valid JSON file.")
+        print(f"Error: The file {filepath} contains invalid JSON.")
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
     return None
 
 
@@ -162,12 +164,13 @@ def main():
     if data is None:
         return
 
-    transactions = data.get("expenses", [])
-    accounts = data.get("accounts", [])
-    categories = data.get("categories", [])
+    # Extract transactions, accounts, and categories from the data array
+    transactions = [item for item in data["data"] if item["modelType"] == "transaction"]
+    accounts = [item for item in data["data"] if item["modelType"] == "account"]
+    categories = [item for item in data["data"] if item["modelType"] == "category"]
 
-    account_id_to_name = map_ids_to_names(accounts, "superId", "bankName")
-    category_id_to_name = map_ids_to_names(categories, "superId", "name")
+    account_id_to_name = map_ids_to_names(accounts, "id", "name")
+    category_id_to_name = map_ids_to_names(categories, "id", "name")
 
     transactions = add_names_to_transactions(
         transactions, account_id_to_name, "accountId", "account"
@@ -184,7 +187,6 @@ def main():
 
     for transaction in transactions:
         transaction["date"] = transaction.pop("time", None)
-        transaction["amount"] = transaction.pop("currency", None)
         transaction["title"] = transaction.pop("name", None)
         transaction["note"] = transaction.pop("description", "")
 
