@@ -89,7 +89,7 @@ def add_starting_balance(transactions, accounts):
 
 def load_json_file(filepath):
     try:
-        with open(filepath, "r", encoding='utf-8-sig') as file:
+        with open(filepath, "r", encoding="utf-8-sig") as file:
             data = json.load(file)
             print("Successfully loaded the JSON file")
             return data

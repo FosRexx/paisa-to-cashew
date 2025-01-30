@@ -89,7 +89,7 @@ def add_starting_balance(transactions, accounts):
 def load_json_file(filepath):
     try:
         with open(filepath, "rb") as file:
-            decoded_data = base64.b64decode(file.read()).decode('utf-8')
+            decoded_data = base64.b64decode(file.read()).decode("utf-8")
             data = json.loads(decoded_data)
             print("Successfully loaded and decoded the JSON file")
             return data
